@@ -1,6 +1,7 @@
 import { Entity } from '@/core/entity'
 import { type Optional } from '@/core/types/optional'
 import { EntityID } from '@/core/value-objects/entity-id'
+import { Field, ID, ObjectType } from '@nestjs/graphql'
 
 export type ChallengeEntityProps = {
   title: string
@@ -10,6 +11,7 @@ export type ChallengeEntityProps = {
 
 type CreateChallengeEntityProps = Optional<ChallengeEntityProps, 'createdAt'>
 
+@ObjectType()
 export class Challenge extends Entity<ChallengeEntityProps> {
   static create(props: CreateChallengeEntityProps, id?: EntityID) {
     return new Challenge(
@@ -21,6 +23,12 @@ export class Challenge extends Entity<ChallengeEntityProps> {
     )
   }
 
+  @Field(() => ID, { name: 'id' })
+  get identifier(): string {
+    return this.id.toString()
+  }
+
+  @Field()
   get title(): string {
     return this.props.title
   }
@@ -28,6 +36,7 @@ export class Challenge extends Entity<ChallengeEntityProps> {
     this.props.title = title
   }
 
+  @Field()
   get description(): string {
     return this.props.description
   }
@@ -35,6 +44,7 @@ export class Challenge extends Entity<ChallengeEntityProps> {
     this.props.description = description
   }
 
+  @Field((type) => Date)
   get createdAt(): Date {
     return this.props.createdAt
   }
