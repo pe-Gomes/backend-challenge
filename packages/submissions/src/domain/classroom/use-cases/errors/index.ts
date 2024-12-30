@@ -6,3 +6,8 @@ export class ResourceNotFoundError extends BaseUseCaseError {
   }
 }
 
+export class InvalidAnswerUrlError extends BaseUseCaseError {
+  constructor(url: string) {
+    super(`Invalid GitHub repository URL (${url}).`)
+  }
+}
