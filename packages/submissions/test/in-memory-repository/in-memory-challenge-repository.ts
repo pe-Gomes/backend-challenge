@@ -14,18 +14,28 @@ export class InMemoryChallengeRepository implements ChallengeRepository {
     return this.challenges.find((challenge) => challenge.id.equals(id)) ?? null
   }
 
+
   async getMany({
     limit,
     page,
     search,
   }: { search?: string } & PaginationParams): Promise<Challenge[]> {
+    let filteredChallenges = [...this.challenges]
+
     if (search) {
-      return []
+      const lowerSearch = search.toLowerCase()
+      filteredChallenges = filteredChallenges.filter(
+        (challenge) =>
+          challenge.title.toLowerCase().includes(lowerSearch) ||
+          challenge.description.toLowerCase().includes(lowerSearch),
+      )
     }
-    return this.challenges
+
+    return filteredChallenges
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
       .slice((page - 1) * limit, page * limit)
   }
+
 
   async update(challenge: Challenge): Promise<void> {
     const challengeIdx = this.challenges.findIndex((c) =>
