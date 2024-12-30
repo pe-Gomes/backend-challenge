@@ -1,6 +1,7 @@
 import { Entity } from '@/core/entity'
 import { type Optional } from '@/core/types/optional'
 import { EntityID } from '@/core/value-objects/entity-id'
+import { Field, ID, ObjectType } from '@nestjs/graphql'
 
 export type AnswerStatusOptions = 'Pending' | 'Error' | 'Done'
 
@@ -17,6 +18,7 @@ type CreateAnswerProps = Optional<
   'grade' | 'status' | 'createdAt'
 >
 
+@ObjectType()
 export class Answer extends Entity<AnswerEntityProps> {
   static create(props: CreateAnswerProps, id?: EntityID) {
     return new Answer(
@@ -29,6 +31,12 @@ export class Answer extends Entity<AnswerEntityProps> {
     )
   }
 
+  @Field(() => ID, { name: 'id' })
+  get identifier() {
+    return this.id.toString()
+  }
+
+  @Field((type) => String, { name: 'challengeId' })
   get fkChallengeId() {
     return this.props.challengeId.toString()
   }
@@ -41,6 +49,7 @@ export class Answer extends Entity<AnswerEntityProps> {
     this.props.challengeId = value
   }
 
+  @Field()
   get answerLink() {
     return this.props.answerLink
   }
@@ -48,6 +57,7 @@ export class Answer extends Entity<AnswerEntityProps> {
     this.props.answerLink = value
   }
 
+  @Field()
   get status() {
     return this.props.status
   }
@@ -56,6 +66,7 @@ export class Answer extends Entity<AnswerEntityProps> {
     this.props.status = value
   }
 
+  @Field({ nullable: true })
   get grade(): number | undefined {
     return this.props.grade
   }
@@ -64,6 +75,7 @@ export class Answer extends Entity<AnswerEntityProps> {
     this.props.grade = value
   }
 
+  @Field((type) => Date)
   get createdAt() {
     return this.props.createdAt
   }
