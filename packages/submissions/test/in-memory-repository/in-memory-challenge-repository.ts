@@ -1,6 +1,6 @@
 import { type PaginationParams } from '@/core/repositories/pagination'
 import { type EntityID } from '@/core/value-objects/entity-id'
-import { type Challenge } from '@/domain/entities/challenge'
+import { type Challenge } from '@/domain/classroom/entities/challenge'
 import { type ChallengeRepository } from '@/domain/classroom/repositories/challenge-repository'
 
 export class InMemoryChallengeRepository implements ChallengeRepository {
