@@ -4,10 +4,12 @@ import { ChallengeRepository } from '@/domain/classroom/repositories/challenge-r
 import { ChallengePrismaRepository } from './prisma/repositories/challenge-repository'
 import { AnswerRepository } from '@/domain/classroom/repositories/answer-repository'
 import { AnswerPrismaRepository } from './prisma/repositories/answer-repository'
+import { EnvService } from '../env/env.service'
 
 @Module({
   providers: [
     PrismaService,
+    EnvService,
     { provide: ChallengeRepository, useClass: ChallengePrismaRepository },
     { provide: AnswerRepository, useClass: AnswerPrismaRepository },
   ],
