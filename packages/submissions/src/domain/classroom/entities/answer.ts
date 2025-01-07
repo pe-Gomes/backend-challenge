@@ -1,9 +1,20 @@
 import { Entity } from '@/core/entity'
 import { type Optional } from '@/core/types/optional'
 import { EntityID } from '@/core/value-objects/entity-id'
-import { Field, ID, ObjectType } from '@nestjs/graphql'
+import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql'
 
 export type AnswerStatusOptions = 'Pending' | 'Error' | 'Done'
+
+export enum AnswerStatusOptionsEnum {
+  Pending = 'Pending',
+  Error = 'Error',
+  Done = 'Done',
+}
+
+registerEnumType(AnswerStatusOptionsEnum, {
+  name: 'AnswerStatusOptions',
+  description: 'Available status for answers',
+})
 
 export type AnswerEntityProps = {
   challengeId: EntityID
@@ -57,7 +68,7 @@ export class Answer extends Entity<AnswerEntityProps> {
     this.props.answerLink = value
   }
 
-  @Field()
+  @Field(type => AnswerStatusOptionsEnum)
   get status() {
     return this.props.status
   }
