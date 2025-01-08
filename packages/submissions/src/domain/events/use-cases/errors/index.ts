@@ -1,7 +1,7 @@
 import { BaseUseCaseError } from '@/core/errors'
 
-export class MicrosserviceTimeoutError extends BaseUseCaseError {
+export class MicroserviceTimeoutError extends BaseUseCaseError {
   constructor() {
-    super('Microsservice timed out.')
+    super('Microservice timed out.')
   }
 }
