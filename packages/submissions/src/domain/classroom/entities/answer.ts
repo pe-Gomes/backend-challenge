@@ -60,7 +60,7 @@ export class Answer extends Entity<AnswerEntityProps> {
     this.props.challengeId = value
   }
 
-  @Field()
+  @Field((type) => String)
   get answerLink() {
     return this.props.answerLink
   }
@@ -68,7 +68,7 @@ export class Answer extends Entity<AnswerEntityProps> {
     this.props.answerLink = value
   }
 
-  @Field(type => AnswerStatusOptionsEnum)
+  @Field((type) => AnswerStatusOptionsEnum)
   get status() {
     return this.props.status
   }
@@ -77,7 +77,7 @@ export class Answer extends Entity<AnswerEntityProps> {
     this.props.status = value
   }
 
-  @Field({ nullable: true })
+  @Field((type) => Number, { nullable: true })
   get grade(): number | undefined {
     return this.props.grade
   }
