@@ -29,5 +29,5 @@ model Answer {
   createdAt  DateTime     @default(now()) @map("created_at")
 
   challengeId String    @map("challenge_id")
-  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
 }
