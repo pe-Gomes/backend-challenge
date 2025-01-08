@@ -15,6 +15,7 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "vitest run --config ./vitest-e2e.config.mjs",
     "test:cov": "vitest run --coverage"
   },
   "dependencies": {
@@ -28,6 +29,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "^6.1.0",
     "class-validator": "^0.14.1",
+    "dayjs": "^1.11.13",
     "graphql": "^16.10.0",
     "kafkajs": "^2.2.4",
     "reflect-metadata": "^0.2.0",
