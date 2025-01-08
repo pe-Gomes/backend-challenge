@@ -1,6 +1,7 @@
 import { InMemoryAnswerRepository } from '@test/in-memory-repository/in-memory-answer-repository'
 import { ListAnswersUseCase } from './list-answers'
 import { createAnswer } from '@test/factories/answer'
+import { InvalidDateRangeError } from './errors'
 
 let answerRepo: InMemoryAnswerRepository
 let sut: ListAnswersUseCase
@@ -24,7 +25,8 @@ describe('ListAnswers Use Case', () => {
     const res = await sut.execute({ page: 1, limit: 10 })
 
     expect(res.isSuccess()).toBe(true)
-    expect(res.value?.answers).toHaveLength(5)
+    if (res.isFailure()) return
+    expect(res.value.answers).toHaveLength(5)
   })
 
   it('should return a list between a start and end date', async () => {
@@ -44,7 +46,27 @@ describe('ListAnswers Use Case', () => {
     })
 
     expect(res.isSuccess()).toBe(true)
+    if (res.isFailure()) return
     expect(answerRepo.answers).toHaveLength(5)
-    expect(res.value?.answers).toHaveLength(3)
+    expect(res.value.answers).toHaveLength(3)
+  })
+
+  it('should return an error for mismatched start and end dates', async () => {
+    const startDate = new Date('2024-01-10')
+    const endDate = new Date('2024-01-05') // End date is earlier than the start date
+
+    for (let i = 0; i < 5; i++) {
+      await answerRepo.create(createAnswer())
+    }
+
+    const res = await sut.execute({
+      page: 1,
+      limit: 10,
+      startDate,
+      endDate,
+    })
+
+    expect(res.isFailure()).toBe(true)
+    expect(res.value).toBeInstanceOf(InvalidDateRangeError)
   })
 })
